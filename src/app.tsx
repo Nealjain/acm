@@ -11,7 +11,8 @@ import Gallery from './pages/Gallery';
 import WhyJoin from './pages/WhyJoin';
 import Register from './pages/Register';
 import Contact from './pages/Contact';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import SupernovaBackground from './components/SupernovaBackground';
+import Preloader from './components/Preloader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,18 +27,10 @@ function App() {
 
   return (
     <Router>
-      {isLoading && (
-        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-          <DotLottieReact
-            src="https://lottie.host/549bebc2-c6dc-4f97-8610-7d9df7b1f82a/D0hPCZlocb.json"
-            loop
-            autoplay
-            style={{ width: '200px', height: '200px' }}
-          />
-        </div>
-      )}
+      <SupernovaBackground />
+      <AnimatePresence>{isLoading && <Preloader />}</AnimatePresence>
       {!isLoading && (
-        <div className="min-h-screen bg-black text-white">
+        <div className="min-h-screen bg-transparent text-white">
           <Navigation />
           
           <AnimatePresence mode="wait">

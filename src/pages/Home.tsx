@@ -1,14 +1,31 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Calendar, Award } from 'lucide-react';
 import TypingEffect from '../components/TypingEffect';
+import Hero3D from '../components/Hero3D';
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+  const statsOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1]);
+  const statsY = useTransform(scrollYProgress, [0.5, 1], [100, 0]);
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div ref={containerRef} className="min-h-screen bg-transparent text-white">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <motion.section
+        style={{ opacity: heroOpacity, scale: heroScale }}
+        className="relative h-screen flex items-center justify-center text-center"
+      >
+        <Hero3D />
+        <div className="relative z-10 max-w-4xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -19,24 +36,23 @@ export default function Home() {
           </motion.h1>
           
           <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 0.3 }}
-  className="text-2xl md:text-3xl font-light mb-12 h-12"
->
-  <TypingEffect
-    texts={[
-      "Innovation begins here",
-      "Building the future",
-      "Where ideas come alive",
-      "Code. Create. Conquer."
-    ]}
-    speed={120}
-    deleteSpeed={50}
-    pause={1500}
-  />
-</motion.div>
-
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-2xl md:text-3xl font-light mb-12 h-12"
+          >
+            <TypingEffect
+              texts={[
+                "Innovation begins here",
+                "Building the future",
+                "Where ideas come alive",
+                "Code. Create. Conquer."
+              ]}
+              speed={120}
+              deleteSpeed={50}
+              pause={1500}
+            />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -58,10 +74,13 @@ export default function Home() {
             </Link>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Stats Section */}
-      <section className="py-20 px-4 border-t border-white/10">
+      <motion.section
+        style={{ opacity: statsOpacity, y: statsY }}
+        className="py-20 px-4 border-t border-white/10"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -84,7 +103,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Recent Events */}
       <section className="py-20 px-4 border-t border-white/10">

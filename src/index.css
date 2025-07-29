@@ -96,15 +96,15 @@ body {
 /* Minimal button styles */
 .btn-minimal {
   background: transparent;
-  border: 1px solid var(--foreground);
-  color: var(--foreground);
+  border: 1px solid #ff0088;
+  color: #ff0088;
   padding: 12px 24px;
   transition: all 0.3s ease;
 }
 
 .btn-minimal:hover {
-  background: var(--foreground);
-  color: var(--background);
+  background: #ff0088;
+  color: #fff;
 }
 
 /* Card styles */
